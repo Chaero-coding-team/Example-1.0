@@ -1,0 +1,63 @@
+// 챗봇 답변 규칙이 담긴 JSON 객체 데이터
+const chatbotData = {
+    "안녕": "안녕하세요! 만나서 반갑습니다. 오늘 어떤 도움이 필요하신가요?",
+    "시간": "영업 시간은 평일 오전 9시부터 오후 6시까지입니다. 주말은 쉽니다.",
+    "위치": "서울시 강남구 테헤란로에 위치하고 있습니다.",
+    "고마워": "별말씀을요! 더 궁금한 점이 있으면 언제든 물어보세요."
+};
+
+// 기본 답변 (JSON에 일치하는 키워드가 없을 때)
+const defaultResponse = "죄송해요, 그 말은 잘 이해하지 못했어요. '안녕', '가격', '시간', '위치' 등을 입력해보세요.";
+
+// 메시지 전송 함수
+function sendMessage() {
+    const userInput = document.getElementById("userInput");
+    const messageText = userInput.value.trim();
+
+    if (messageText === "") return;
+
+    // 1. 유저 메시지 화면에 추가
+    appendMessage(messageText, "user-message");
+    userInput.value = "";
+
+    // 2. 챗봇 답변 생성 (0.5초 뒤에 답변이 달리는 효과)
+    setTimeout(() => {
+        const botResponse = getBotResponse(messageText);
+        appendMessage(botResponse, "bot-message");
+    }, 500);
+}
+
+// 엔터키 입력 처리 함수
+function handleKeyPress(event) {
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+}
+
+// JSON 데이터를 기반으로 답변을 찾는 함수
+function getBotResponse(input) {
+    // 입력값에서 공백을 없애고 매칭 확률을 높임
+    const cleanInput = input.replace(/\s+/g, "");
+
+    // JSON의 키(Key) 중에 유저가 입력한 단어가 포함되어 있는지 확인
+    for (let key in chatbotData) {
+        if (cleanInput.includes(key)) {
+            return chatbotData[key];
+        }
+    }
+    return defaultResponse;
+}
+
+// 화면에 메시지 노드를 생성하여 추가하는 함수
+function appendMessage(text, className) {
+    const chatBox = document.getElementById("chatBox");
+    const messageElement = document.createElement("div");
+    
+    messageElement.classList.add("message", className);
+    messageElement.innerText = text;
+    
+    chatBox.appendChild(messageElement);
+    
+    // 메시지가 쌓이면 자동으로 스크롤을 가장 아래로 내림
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
