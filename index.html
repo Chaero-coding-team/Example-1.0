@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>심플 규칙 기반 챗봇</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="chat-container">
+        <!-- 챗봇 헤더 -->
+        <div class="chat-header">
+            <h3>🤖 헬프봇</h3>
+        </div>
+        
+        <!-- 메시지 출력 창 -->
+        <div class="chat-box" id="chatBox">
+            <div class="message bot-message">안녕하세요! 무엇을 도와드릴까요? (안녕, 가격, 시간 등을 입력해보세요)</div>
+        </div>
+        
+        <!-- 메시지 입력 창 -->
+        <div class="chat-input-area">
+            <input type="text" id="userInput" placeholder="메시지를 입력하세요..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">전송</button>
+        </div>
+    </div>
+
+    <script href="script.js"></script>
+</body>
+</html>
